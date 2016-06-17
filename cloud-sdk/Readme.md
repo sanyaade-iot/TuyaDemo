@@ -1,13 +1,15 @@
-# Cloud-sdk, 涂鸦云对云API java-sdk
+# Cloud-SDK, 涂鸦云对云API java-sdk
 
 
 ## 项目简介
-Cloud-sdk是涂鸦云对云API的java封装, 对http方式提供的接口进行了简单的封装,包括
+Cloud-SDK是涂鸦云对云API的java封装, 对http方式提供的接口进行了简单的封装,包括
 签名, 基础参数设置等. 方便使用java的客户进行接口调用.
 
 API列表见: [Tuya Open API](http://api.tuya.com/)
 
 http方式调用指南: [Tuya docs](http://docs.tuya.com/develop/cloudapi/api/)
+
+SDK下载: [Cloud-SDK](https://github.com/TuyaInc/TuyaDemo/releases/download/1.0-SNAPSHOT/cloud-sdk-1.0-SNAPSHOT.jar)
 
 ## SDK使用
 

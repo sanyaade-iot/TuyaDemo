@@ -1,6 +1,6 @@
-# 涂鸦Open API 调用Demo
+# Tuay Open Api 调用Demo 和 SDK
 
-cloud-sdk :云对云调用的java SDK. 
+[Cloud-SDK](https://github.com/TuyaInc/TuyaDemo/blob/master/cloud-sdk/Readme.md) 云对云调用的java SDK.
 
 SDK下载: [Cloud-SDK](https://github.com/TuyaInc/TuyaDemo/releases/download/1.0-SNAPSHOT/cloud-sdk-1.0-SNAPSHOT.jar)
 
