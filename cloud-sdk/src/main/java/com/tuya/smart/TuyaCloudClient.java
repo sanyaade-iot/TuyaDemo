@@ -1,5 +1,7 @@
 package com.tuya.smart;
 
+import com.tuya.smart.internal.TuyaHttpClientFactory;
+import com.tuya.smart.config.ClientConfig;
 import com.tuya.smart.internal.AtopThirdCloudMobileSignUtil;
 import com.tuya.smart.internal.CloudResponseHandler;
 import com.tuya.smart.model.RequestMessage;
@@ -19,16 +21,25 @@ public class TuyaCloudClient {
     private String accessId;
     private String accessKey;
     private String endUri;
+    private ClientConfig clientConfig;
 
     public TuyaCloudClient(String accessId, String accessKey,String endUri) {
         this.accessId = accessId;
         this.accessKey = accessKey;
         this.endUri = endUri;
+        this.clientConfig = new ClientConfig();
+    }
+
+    public TuyaCloudClient(String accessId, String accessKey,String endUri, ClientConfig config) {
+        this.accessId = accessId;
+        this.accessKey = accessKey;
+        this.endUri = endUri;
+        this.clientConfig = config;
     }
 
     public ResponseMessage sendRequest(RequestMessage request) {
         
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+        CloseableHttpClient httpclient = TuyaHttpClientFactory.getInstance().getDefaultClient(clientConfig); 
 
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
         formparams.add(new BasicNameValuePair("postData", request.getPostData()));

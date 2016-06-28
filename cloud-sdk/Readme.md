@@ -16,7 +16,7 @@ SDK下载: [Cloud-SDK](https://github.com/TuyaInc/TuyaDemo/releases/download/1.0
 ```java
 
     //创建 cloud client(accessId, accessKey由tuya这边提供)
-    String endUri = "http://a1.tuyacn.com/api.json";
+    String endUri = "https://a1.tuyacn.com/api.json";
     String accessId = "xxxx";
     String accessKey = "xxxxxxxxxxx";
     TuyaCloudClient client = new TuyaCloudClient(accessId,accessKey, endUri);
@@ -56,6 +56,21 @@ SDK下载: [Cloud-SDK](https://github.com/TuyaInc/TuyaDemo/releases/download/1.0
 
 
 ```
+
+网络连接超时可以根据服务器情况进行设置
+
+```java
+
+    //不设置的话,默认为50秒. 
+    ClientConfig clientConfig=new ClientConfig();
+    clientConfig.setSocketTimeout(2000);
+    clientConfig.setConnectionTimeout(2000);
+
+    TuyaCloudClient client = new TuyaCloudClient(accessId,accessKey, endUri, clientConfig);
+
+```
+
+
 
 注册接口成功返回的response.getResult()对象.
 ```json
