@@ -22,12 +22,15 @@ public class TuyaCloudClient {
     private String accessKey;
     private String endUri;
     private ClientConfig clientConfig;
+    private CloseableHttpClient httpclient;
+
 
     public TuyaCloudClient(String accessId, String accessKey,String endUri) {
         this.accessId = accessId;
         this.accessKey = accessKey;
         this.endUri = endUri;
         this.clientConfig = new ClientConfig();
+        this.httpclient = TuyaHttpClientFactory.getInstance().getDefaultClient(clientConfig); 
     }
 
     public TuyaCloudClient(String accessId, String accessKey,String endUri, ClientConfig config) {
@@ -35,11 +38,10 @@ public class TuyaCloudClient {
         this.accessKey = accessKey;
         this.endUri = endUri;
         this.clientConfig = config;
+        this.httpclient = TuyaHttpClientFactory.getInstance().getDefaultClient(clientConfig); 
     }
 
     public ResponseMessage sendRequest(RequestMessage request) {
-        
-        CloseableHttpClient httpclient = TuyaHttpClientFactory.getInstance().getDefaultClient(clientConfig); 
 
         List<NameValuePair> formparams = new ArrayList<NameValuePair>();
         formparams.add(new BasicNameValuePair("postData", request.getPostData()));
@@ -69,14 +71,22 @@ public class TuyaCloudClient {
 
         sb.append("a=").append(request.getApi()).append("&");
         sb.append("time=").append(request.getTime()).append("&");
-        sb.append("sid=").append(request.getSession()).append("&");
+
+        if (request.getSession() != null ) {
+            sb.append("sid=").append(request.getSession()).append("&");
+        }
 
         sb.append("lang=").append(request.getLang()).append("&");
 
         sb.append("v=").append(request.getApiVersion()).append("&");
 
-        sb.append("os=").append(request.getOs()).append("&");
-        sb.append("deviceId=").append(request.getDeviceid()).append("&");
+        if (request.getOs() != null ) {
+            sb.append("os=").append(request.getOs()).append("&");
+        }
+
+        if (request.getDeviceid() != null ) {
+            sb.append("deviceId=").append(request.getDeviceid()).append("&");
+        }
 
         sb.append("clientid=").append(this.accessId).append("&");
 
