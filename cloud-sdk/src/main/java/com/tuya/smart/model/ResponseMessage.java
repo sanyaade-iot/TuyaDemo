@@ -15,7 +15,7 @@ public class ResponseMessage {
 	private String				errorMsg;
 
     /** 响应json消息体 */
-	private JSONObject          result;
+	private Object              result;
 
 
     public void setSuccess(boolean isSuccess) {
@@ -41,10 +41,10 @@ public class ResponseMessage {
     }
 
 
-    public void setResult(JSONObject result) {
+    public void setResult(Object result) {
         this.result=result;
     }
-    public JSONObject getResult() {
+    public Object getResult() {
         return this.result;
     }
 
