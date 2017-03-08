@@ -12,6 +12,7 @@
         <module>cloud-sign</module>
         <module>mqtt-subscribe</module>
         <module>cloud-sdk</module>
+        <module>kafka-demo</module>
     </modules>
 
 
