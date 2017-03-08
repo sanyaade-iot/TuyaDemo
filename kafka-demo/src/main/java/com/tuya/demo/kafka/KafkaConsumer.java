@@ -24,7 +24,7 @@ public class KafkaConsumer {
 		Configuration configuration = Configuration.getConfiguration();
 		Configuration.setConfiguration(null);
 		try {
-			java.security.Security.setProperty("login.configuration.provider", "com.tuya.demo.kafka.SASLConfiguration");
+			java.security.Security.setProperty("login.configuration.provider", "com.tuya.demo.kafka.SaslConfiguration");
 
 			Properties props = new Properties();
 			props.put("bootstrap.servers", "kafka.cloud.tuyacn.com:8092");
