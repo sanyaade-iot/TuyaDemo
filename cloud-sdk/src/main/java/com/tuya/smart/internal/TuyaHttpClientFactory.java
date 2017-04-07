@@ -44,8 +44,6 @@ public class TuyaHttpClientFactory {
 
 	protected static RequestConfig requestConfig;
 
-	protected Registry<ConnectionSocketFactory> registry;
-
 	protected PoolingHttpClientConnectionManager connManager;
 
 	protected static Charset defaultEncoding = Consts.UTF_8;
@@ -76,44 +74,17 @@ public class TuyaHttpClientFactory {
             .setSoTimeout(clientConfig.getSocketTimeout())
             .build();
 
-		RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder
-				.<ConnectionSocketFactory> create();
-
-		ConnectionSocketFactory plainSF = new PlainConnectionSocketFactory();
-		registryBuilder.register("http", plainSF);
-		// 指定信任密钥存储对象和连接套接字工厂
-		try {
-			KeyStore trustStore = KeyStore.getInstance(KeyStore
-					.getDefaultType());
-			SSLContext sslContext = SSLContexts.custom().useTLS()
-					.loadTrustMaterial(trustStore, new TrustStrategy() {
-                        public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                            return true;
-                        }
-                     })
-					.build();
-			LayeredConnectionSocketFactory sslSF = new SSLConnectionSocketFactory(
-					sslContext,
-					SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-			registryBuilder.register("https", sslSF);
-
-		} catch (KeyStoreException e) {
-			throw new RuntimeException(e);
-		} catch (KeyManagementException e) {
-			throw new RuntimeException(e);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
-
-		registry = registryBuilder.build();
+		Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+				.register("https", SSLConnectionSocketFactory.getSocketFactory())
+				.register("http", PlainConnectionSocketFactory.getSocketFactory())
+				.build();
 
 		// 设置连接管理器
-		connManager = new PoolingHttpClientConnectionManager(registry);
+		connManager = new PoolingHttpClientConnectionManager(socketFactoryRegistry);
 		connManager.setDefaultConnectionConfig(connConfig);
 		connManager.setDefaultSocketConfig(socketConfig);
 		connManager.setMaxTotal(clientConfig.getMaxConnections());
-		connManager.setDefaultMaxPerRoute(5);
+		connManager.setDefaultMaxPerRoute(25);
 
 		HttpRequestRetryHandler myRetryHandler = new HttpRequestRetryHandler() {
 

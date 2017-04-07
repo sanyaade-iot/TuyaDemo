@@ -1,20 +1,20 @@
 package com.tuya.smart;
 
-import com.tuya.smart.internal.TuyaHttpClientFactory;
 import com.tuya.smart.config.ClientConfig;
 import com.tuya.smart.internal.AtopThirdCloudMobileSignUtil;
 import com.tuya.smart.internal.CloudResponseHandler;
+import com.tuya.smart.internal.TuyaHttpClientFactory;
 import com.tuya.smart.model.RequestMessage;
 import com.tuya.smart.model.ResponseMessage;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TuyaCloudClient {
 
@@ -62,6 +62,8 @@ public class TuyaCloudClient {
         } catch (Exception e) {
             System.out.println("执行http请求出错");
             e.printStackTrace();
+        }finally {
+            httppost.releaseConnection();
         }
         return null;
     }
