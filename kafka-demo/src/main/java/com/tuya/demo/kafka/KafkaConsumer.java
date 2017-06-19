@@ -21,7 +21,8 @@ public class KafkaConsumer {
 	private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 
 	public static void main(String[] args) {
-		String appKey = "";//填APPKEY
+		String appKey = "";//填APP KEY
+		String secretKey = "";//APP SECRET
 		org.apache.kafka.clients.consumer.KafkaConsumer<String, JSONObject> consumer = null;
 		Configuration configuration = Configuration.getConfiguration();
 		Configuration.setConfiguration(null);
@@ -29,7 +30,7 @@ public class KafkaConsumer {
 			java.security.Security.setProperty("login.configuration.provider", "com.tuya.demo.kafka.SaslConfiguration");
 
 			Properties props = new Properties();
-            //根据不同区域填写，不同区域URL参考文档  https://docs.tuya.com/cn/cloudapi/cloud_access/#kafka
+			//根据不同区域填写，不同区域URL参考文档  https://docs.tuya.com/cn/cloudapi/cloud_access/#kafka
 			props.put("bootstrap.servers", "kafka.cloud.tuyacn.com:8092");
 			props.put("group.id", "");//填申请的时候颁发的GROUP
 
@@ -57,9 +58,14 @@ public class KafkaConsumer {
 		if (consumer != null) {
 			while (true) {
 				ConsumerRecords<String, JSONObject> records = consumer.poll(1000);
-				for (ConsumerRecord<String, JSONObject> record : records) {
-					logger.info("Received message: (" + record.key() + ", " + record.value() + ") at offset "
-							+ record.offset());
+				try {
+					for (ConsumerRecord<String, JSONObject> record : records) {
+						logger.info("Received message: (" + record.key() + ", " + record.value() + ") at offset "
+								+ record.offset() + ",decrypt data="
+								+ AESBase64Util.decrypt(record.value().getString("data"), secretKey.substring(8, 24)));
+					}
+				} catch (Exception e) {
+					logger.error("", e);
 				}
 			}
 		}
