@@ -37,7 +37,7 @@ public class KafkaConsumer {
 			String clientId = "cloud_" + appKey + "_" + netAddress.getHostAddress();
 			props.put("client.id", clientId);
 			props.put("enable.auto.commit", "true");
-			props.put("auto.commit.interval.ms", "1000");
+			props.put("auto.commit.interval.ms", "10000");
 			props.put("session.timeout.ms", "30000");
 			props.put("max.poll.records", 1000);
 			props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
