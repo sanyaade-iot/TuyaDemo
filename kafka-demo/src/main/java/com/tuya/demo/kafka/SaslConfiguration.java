@@ -12,8 +12,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 public class SaslConfiguration extends Configuration {
 
 	public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
-		String appKey = "";//填APP KEY
-		String secretKey = "";//APP SECRET
+		String appKey = "";//accessId
+		String secretKey = "";//accessKey
 		Map<String, String> options = new HashMap<String, String>();
 		options.put("username", appKey);//APP KEY
 		options.put("password", DigestUtils.md5Hex(appKey + DigestUtils.md5Hex(secretKey)).substring(8, 24));//MD5(APP KEY+MD5(云端APP SECRET))后，取中间16位
