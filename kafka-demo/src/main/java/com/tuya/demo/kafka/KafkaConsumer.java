@@ -21,8 +21,8 @@ public class KafkaConsumer {
 	private static final Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
 
 	public static void main(String[] args) {
-		String appKey = "";//填APP KEY
-		String secretKey = "";//APP SECRET
+		String appKey = "";//填accessId
+		String secretKey = "";//填accessKey
 		org.apache.kafka.clients.consumer.KafkaConsumer<String, JSONObject> consumer = null;
 		Configuration configuration = Configuration.getConfiguration();
 		Configuration.setConfiguration(null);
@@ -32,7 +32,7 @@ public class KafkaConsumer {
 			Properties props = new Properties();
 			//根据不同区域填写，不同区域URL参考文档  https://docs.tuya.com/cn/cloudapi/cloud_access/#kafka
 			props.put("bootstrap.servers", "kafka.cloud.tuyacn.com:8092");
-			props.put("group.id", "");//填申请的时候颁发的GROUP
+			props.put("group.id", appKey);
 
 			InetAddress netAddress = InetAddress.getLocalHost();
 			String clientId = "cloud_" + appKey + "_" + netAddress.getHostAddress();
